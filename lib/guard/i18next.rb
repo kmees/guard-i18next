@@ -37,8 +37,11 @@ module Guard
         locale = YAML.load(input.read)
         input.close
 
-        File.open(options[:output] + "/#{filename}.json", "w") do |f|
-            f.puts locale.to_json
+        locale.keys.each do |locale_key|
+          locale_filename = (filename.end_with? locale_key) ? filename : "#{filename}.#{locale_key}"
+          File.open(options[:output] + "/#{locale_filename}.json", "w") do |f|
+              f.puts locale[locale_key].to_json
+          end
         end
       end
     end
